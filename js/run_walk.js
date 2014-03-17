@@ -67,15 +67,7 @@ function walk() {
     returnToNormalColor();
     //Don't allow step to go beyond program scope
     if (step == codeTable.rows.length-1) {
-        selectRow(step);
-        step = 0;
-        toggleEvents();
-        $("#" + runButton.id).html("Run").off("click").click(function() { run(); });
-        $("#" + walkButton.id).html("Walk").off("click").click(function() { walk(); });
-        $(".button" + figNum).attr("disabled", false);
-        $("#vvDivHolder").slideUp("medium"); // Teel's code <--
-        programRunning = false;
-        fresh = true;
+	reloadProgram();
         return;
     }
     selectRow(step);
@@ -85,7 +77,7 @@ function walk() {
     $("#drawCanvas" + figNum).trigger("mousemove");
     
     //Polygon found
-    if (rowToString(step).indexOf("g") >= 0 && rowToString(step).indexOf("draw") == -1 && rowToString(step).indexOf("color") == -1) {
+    if (rowToString(step).indexOf("g") >= 0 && rowToString(step).indexOf("draw") == -1 && rowToString(step).indexOf("color") == -1 && rowToString(step).indexOf("erase") == -1) {
     	var string = rowToString(step).trim();
     	step++;
     	while (!containsCommand(rowToString(step+1))) {
@@ -221,6 +213,18 @@ function updateVarValueWindow(){
 		$("#vvDivHolder").slideUp("medium");
 }
 
+function reloadProgram()
+{
+	selectRow(step);
+        step = 0;
+        toggleEvents();
+        $("#" + runButton.id).html("Run").off("click").click(function() { run(); });
+        $("#" + walkButton.id).html("Walk").off("click").click(function() { walk(); });
+        $(".button" + figNum).attr("disabled", false);
+        $("#vvDivHolder").slideUp("medium"); // Teel's code <--
+        programRunning = false;
+        fresh = true;
+}
 
 
 

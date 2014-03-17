@@ -31,6 +31,8 @@ function drawP1()
 
 function interpret(input)
 {
+	console.log(toDraw[0]);
+	console.log(toDraw);
 	if (fresh)
 	{
 		fresh = false;
@@ -451,6 +453,7 @@ function interpret(input)
 			valid = validCircle(tokens.slice(2, -1));
 			if (valid[0])
 			{
+				c[assignmentVariableNumber - 1] = new circle(0,0,0);
 				c[assignmentVariableNumber - 1].startX = valid[1];
 				c[assignmentVariableNumber - 1].startY = valid[2];
 				c[assignmentVariableNumber - 1].diameter = valid[3];
@@ -796,7 +799,7 @@ function validCircle(tokens)
 	var parse = new Array();
 	var returned = new Array();
 	var rect = canvas.getBoundingClientRect();
-	if (isValid(tokens[0]) && tokens.charAt(0) == 'c')
+	if (isValid(tokens[0]) && tokens[0].charAt(0) == 'c')
 	{
 		if ((c[variableNumber - 1].startX != -1) &&
 			(c[variableNumber - 1].startY != -1) &&
@@ -933,6 +936,7 @@ function handleIncompleteProgram(token)
                                     "be replaced with the actual code they stand for.\n\n"  + 
                                     "Click on " + token + " to replace this "        + 
                                     "placeholder. ");
+	reloadProgram();
 }
 
 /*
@@ -952,6 +956,7 @@ function handleSyntaxError(tokens)
                                     "cause is that the initial program for this activity "   + 
                                     "(located in the source file 'Activities.java') is"      + 
                                     "incorrect.");
+	reloadProgram();
 }
 /*
 */
@@ -964,9 +969,11 @@ function handleUnexpectedEndOfProgram(token)
                                     "Details:\n"                                                 + 
                                     "An unrecognized or out of place token ==> " + token  + 
                                     "<== \n was encountered.");
+	reloadProgram();
 }
 
 function handleOutOfBoundsError()
 {
 	alert("You have create a number which exceeds the dimensions of the canvas.");
+	reloadProgram();
 }
