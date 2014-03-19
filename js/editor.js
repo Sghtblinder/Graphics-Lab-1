@@ -106,11 +106,12 @@ function toggleEvents() {
         			deleteLoop("loop", rowNum);
         		}
         		else if(rowString.charAt(0) == 'g'){
+        			console.log("here");
         			deletePolygon(rowNum);
         		}
         		else {
         			if(rowToString(rowNum).charAt(0) == '(' && rowToString(rowNum + 1).charAt(0) != '('){
-        				// cant not delete , this is last in polygon.  popup here?	
+        				// can not delete , this is last in polygon.  popup here to warn or nothing happen?	
         			} else {
         				codeTable.deleteRow(rowNum);
             			if (rowNum < selRow) selRow--;
@@ -228,7 +229,7 @@ function toggleEvents() {
             for (var i = 0; i < rowNum; i++) {
 				if (rowToString(i).indexOf("=") >= 0 && rowToString(i).indexOf("VARIABLE") == -1 && !isDistanceAssign(rowNum)) {
 					var variable = rowToString(i).substring(0, rowToString(i).indexOf("="));
-					if (variable.length > 0)
+					if (variable.length > 0 && $.inArray(variable, arr) == -1)
 						arr.push(variable);
 				}
 			}
