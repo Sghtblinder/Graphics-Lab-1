@@ -229,7 +229,8 @@ function toggleEvents() {
 				if (rowToString(i).indexOf("=") >= 0 && rowToString(i).indexOf("VARIABLE") == -1 && !isDistanceAssign(rowNum)) {
 					var variable = rowToString(i).substring(0, rowToString(i).indexOf("="));
 					if (variable.length > 0 && $.inArray(variable, arr) == -1)
-						arr.push(variable);
+						if(variable.charAt(0) != 'd')
+							arr.push(variable);
 				}
 			}
 			var currentElement = $(this);
