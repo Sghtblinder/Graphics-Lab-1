@@ -106,7 +106,6 @@ function toggleEvents() {
         			deleteLoop("loop", rowNum);
         		}
         		else if(rowString.charAt(0) == 'g'){
-        			console.log("here");
         			deletePolygon(rowNum);
         		}
         		else {
@@ -297,6 +296,7 @@ function toggleEvents() {
             if (innerTable.rows[0].cells[colNum+1].textContent.indexOf("=") >= 0) {
 				var currentElement = $(this);
             	var arr = new Array();
+            	var oldShp = rowToString(rowNum).charAt(0);
             	for (var i = 0; i < distanceVariables.length; i++) {
             		arr.push(distanceVariables[i]);
             	}
@@ -315,28 +315,26 @@ function toggleEvents() {
           		if (arr.length > 0) {
 					openSelector("Choice Selection Panel", arr).done(function(evt) {
 						if (evt.length > 0) {
-							var canDel = 0;
+							// if old variable was polygon , delete all its lines
+							if(rowToString(rowNum).charAt(0) == 'g') deletePolygon(rowNum + 1);
 							var currRow = rowNum;
 							if (evt.indexOf("d") >= 0 && evt.indexOf("+") == -1 && evt.indexOf("-") == -1) {
 								codeTable.deleteRow(currRow);
 								insertTable.deleteRow(-1);
 								addNewRow(currRow, [getIndent(rowNum) + evt, "&nbsp;=&nbsp;", "distanceValue"]);
 								selRow--;
-								canDel++;
 							}
 							else if (evt.indexOf("p") >= 0) {
 								codeTable.deleteRow(currRow);
 								insertTable.deleteRow(-1);
 								addNewRow(currRow, [getIndent(rowNum) + evt, "&nbsp;=&nbsp;", "(", "X", ",", "Y", ")"]);
 								selRow--;
-								canDel++;
 							}
 							else if (evt.indexOf("l") >= 0) {
 								codeTable.deleteRow(currRow);
 								insertTable.deleteRow(-1);
 								addNewRow(currRow, [getIndent(rowNum) + evt, "&nbsp;=&nbsp;", "(", "(", "X", ",", "Y", ")", ",", "(", "X", ",", "Y", ")", ")"]);
 								selRow--;
-								canDel++;
 							}
 							else if (evt.indexOf("g") >= 0) {
 								codeTable.deleteRow(currRow);
@@ -347,17 +345,13 @@ function toggleEvents() {
 								addNewRow(currRow+2, [getIndent(rowNum) + indent + "(", "X", ",",  "Y", ")", ","]);
 								addNewRow(currRow+3, [getIndent(rowNum) + indent + "(", "X", ",",  "Y", ")", ","]);
 								addNewRow(currRow+4, [getIndent(rowNum) + indent + "(", "X", ",",  "Y", ")", ")"]);
-								canDel++;
 							}
 							else if (evt.indexOf("c") >= 0) {
 								codeTable.deleteRow(currRow);
 								insertTable.deleteRow(-1);
 								addNewRow(currRow, [getIndent(rowNum) + evt, "&nbsp;=&nbsp;", "(", "X", ",", "Y", ",", "RADIUS", ")"]);
 								selRow--;
-								canDel++;
 							}
-							// delete leftover polygon if something was changed
-							if(canDel > 0) deletePolygon(rowNum + 1);
 						}
 					});
 				}
