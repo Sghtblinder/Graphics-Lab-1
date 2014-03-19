@@ -102,7 +102,7 @@ buttonDiv.style.cssFloat = "right";
 
 //<p> for variable value title
 var varValueTitle = document.createElement('p');
-varValueTitle.id = "varValOuterP";
+varValueTitle.id = "varValOuterP" + figNum;
 varValueTitle.innerHTML = '<b>&nbspInternal Variables</b>';
 varValueTitle.style.position = "relative";
 varValueTitle.style.top = "15px";
@@ -118,7 +118,7 @@ varValueDiv.style.border = "1px solid #000";
 
 // <div> holder for varValueDiv <div> and varValueTitle <p>
 var vvDivHolder = document.createElement('div');
-vvDivHolder.id ="vvDivHolder";
+vvDivHolder.id ="vvDivHolder" + figNum;
 vvDivHolder.appendChild(varValueTitle);
 vvDivHolder.appendChild(varValueDiv);
 vvDivHolder.style.display = "none";

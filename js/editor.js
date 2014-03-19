@@ -67,6 +67,8 @@ function toggleEvents() {
                 	else if (rowString.indexOf("endloop") >= 0)
                 		highlightLoop("endloop", rowNum);
                     highlightLine(rowNum);
+                    // highlight all lines of polygon
+                    if(rowToString(rowNum).charAt(0) == 'g') while(rowToString(++rowNum).charAt(0) == '(') highlightLine(rowNum);
                 }
                 else
                     highlightCell(rowNum, colNum);
@@ -102,6 +104,9 @@ function toggleEvents() {
         		}
         		else if (rowString.indexOf("loop") >= 0) {
         			deleteLoop("loop", rowNum);
+        		}
+        		else if(rowString.charAt(0) == 'g'){
+        			deletePolygon(rowNum);
         		}
         		else {
         			codeTable.deleteRow(rowNum);
@@ -384,6 +389,7 @@ function toggleEvents() {
 	});
 	$("#" + offsetDiv.id).off("click");
 	$("#" + offsetDiv.id).on("click", function() {
+		toggleEvents();
 		if(selRow != 0) {
 			moveToLine(0);
 			$(this).html(blank);
@@ -780,7 +786,14 @@ function fixPolygons() {
 }
 
 
-
+// delete polygon
+function deletePolygon(rowNum){	
+	codeTable.deleteRow(rowNum);
+	while(rowToString(rowNum).charAt(0) == '('){
+		codeTable.deleteRow(rowNum);
+		if (rowNum < selRow) selRow--;
+	}
+}
 
 
 
